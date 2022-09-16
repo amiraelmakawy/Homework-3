@@ -1,0 +1,83 @@
+attach(Household_Pulse_data)
+summary(Household_Pulse_data$RECVDVACC)
+use_varb <- (Household_Pulse_data$RECVDVACC == "yes got vaxx") 
+dat_use <- subset(Household_Pulse_data,use_varb) 
+RECVDVACC = sample(c("yes got vax", "no did not get vaxx"), 69114, replace = TRUE)
+
+
+restrict1 <- (Household_Pulse_data$RECVDVACC == "yes got vaxx") & (Household_Pulse_data$HADCOVID == "yes doctor told had covid") & 
+  (Household_Pulse_data$ANXIOUS == "several days anxiety over past 2 wks")
+
+data_new1 <- subset(Household_Pulse_data,restrict1)
+
+stderror <- function(x) sd(x)/sqrt(length(x))
+
+sd(summary(data_new1$RECVDVACC))
+
+t.test(summary(data_new1$RECVDVACC),var.equal = TRUE)
+
+summary(data_new1$RECVDVACC)
+
+
+# By using the t.test , the p-value came out as 0.4 with a 95% confidence.
+# So there a 40% chance of getting vaccine for people who had been told that they had covid before and have several days anxiety.
+
+#by trying this with the people who "didn't have covid" and 
+
+restrict2 <- (Household_Pulse_data$RECVDVACC == "yes got vaxx") & (Household_Pulse_data$HADCOVID == "yes doctor told had covid") & 
+  (Household_Pulse_data$ANXIOUS == "nearly every day anxiety")
+
+data_new2 <- subset(Household_Pulse_data,restrict2)
+
+sd(summary(data_new2$RECVDVACC))
+
+t.test(summary(data_new2$RECVDVACC),var.equal = TRUE)
+
+summary(data_new2$RECVDVACC)
+
+
+restrict3 <- (Household_Pulse_data$RECVDVACC == "yes got vaxx") & (Household_Pulse_data$HADCOVID == "yes doctor told had covid") & 
+  (Household_Pulse_data$ANXIOUS == "no anxiety over past 2 wks")
+
+data_new3 <- subset(Household_Pulse_data,restrict3)
+
+sd(summary(data_new3$RECVDVACC))
+
+t.test(summary(data_new3$RECVDVACC),var.equal = TRUE)
+
+summary(data_new3$RECVDVACC)
+
+#by trying this with the people who "didn't have covid" and "no anxiety over past 2 wks".
+
+restrict4 <- (Household_Pulse_data$RECVDVACC == "yes got vaxx") & (Household_Pulse_data$HADCOVID == "no did not") & 
+  (Household_Pulse_data$ANXIOUS == "no anxiety over past 2 wks")
+
+data_new4 <- subset(Household_Pulse_data,restrict4)
+
+sd(summary(data_new4$RECVDVACC))
+t.test(summary(data_new4$RECVDVACC),var.equal = TRUE)
+
+summary(data_new4$RECVDVACC)
+
+restrict5 <- (Household_Pulse_data$RECVDVACC == "yes got vaxx") & (Household_Pulse_data$HADCOVID == "yes doctor told had covid") & 
+  (Household_Pulse_data$eat_in_restaurant == "eat at restaurant indoors")
+
+data_new5 <- subset(Household_Pulse_data,restrict5)
+
+sd(summary(data_new5$RECVDVACC))
+
+t.test(summary(data_new5$RECVDVACC),var.equal = TRUE)
+
+summary(data_new5$RECVDVACC)
+
+
+# the expected results should be that the heigher the anxious people , the heigher the percentage of taking vaccine, and also same thing for "HAD COVID " , As the heigher the people who got Covid , The heigher the percentage of taking the vaccine , but the results shows up that the heighest percentage of taking the vaccine is in the case of no anxiety and didn't have covid.
+#Other gactors that could explain the differences in vaxx status could be the education , age , work in site or remotely , and eating in resturants or not.
+
+#By doing the basic tables between each of 2 variables : 
+
+table(EEDUC,RECVDVACC)
+table(GETVACRV , HADCOVID)  
+prop.table(table(works_remote,RECVDVACC))
+
+#There is a high causation between the education and receiving vaccine.
